@@ -37,7 +37,7 @@ st.info('✨ Supports all popular image formats 📷 - PNG, JPG, BMP 😉')
 
 if selection_choice == "Single Directory":
     uploaded_files = st.file_uploader("Upload Images 🚀", type=["png","jpg","bmp","jpeg"], accept_multiple_files=True)
-    with st.spinner(f"Working... 💫"):
+    with st.spinner("Working... 💫"):
         if uploaded_files:
             for uploaded_file in uploaded_files:
                 with open(os.path.join(single_folder_upload_path,uploaded_file.name),"wb") as f:
@@ -45,7 +45,7 @@ if selection_choice == "Single Directory":
 
             search = dif("single_uploads/")
 
-            dup_imgs = [key for key in search.result.keys()]
+            dup_imgs = list(search.result.keys())
             low_res_imgs = [str(img.split("/")[-1]) for img in search.lower_quality]
             stats_metrics = [search.stats[key] for key in search.stats.keys()]
             time_metrics = [stats_metrics[2][key] for key in stats_metrics[2].keys()]
@@ -54,26 +54,26 @@ if selection_choice == "Single Directory":
             similarity_mse = str(stats_metrics[4])
             total_imgs_searched = str(stats_metrics[5])
             total_imgs_found = str(stats_metrics[6])
-            strt_datetime = str(time_metrics[0])+ " " + str(time_metrics[1])
-            end_datetime = str(time_metrics[2])+ " " + str(time_metrics[3])
+            strt_datetime = f"{str(time_metrics[0])} {str(time_metrics[1])}"
+            end_datetime = f"{str(time_metrics[2])} {str(time_metrics[3])}"
             secs_elapsed = str(time_metrics[-1])
 
             df  = pd.DataFrame(columns = ['names of duplicate images'])
             df['names of duplicate images'] = dup_imgs
             df['names of lowest quality images'] = low_res_imgs
 
-            if len(total_imgs_searched) != 0:
-                    col1, col2, col3 = st.columns(3)
-                    col1.metric("Total Images Searched", total_imgs_searched)
-                    col2.metric("Duplicate Images Found", total_imgs_found)
-                    col3.metric("Lowest Quality Images Found", len(low_res_imgs))
+            if total_imgs_searched != "":
+                col1, col2, col3 = st.columns(3)
+                col1.metric("Total Images Searched", total_imgs_searched)
+                col2.metric("Duplicate Images Found", total_imgs_found)
+                col3.metric("Lowest Quality Images Found", len(low_res_imgs))
 
-                    col1.metric("Similarity Grade", similarity_grade.title())
-                    col2.metric("Similarity MSE", similarity_mse)
-                    col3.metric("Seconds Elapsed", secs_elapsed)
-                    with col2:
-                        st.markdown("<br>", unsafe_allow_html=True)
-                        st.dataframe(df)
+                col1.metric("Similarity Grade", similarity_grade.title())
+                col2.metric("Similarity MSE", similarity_mse)
+                col3.metric("Seconds Elapsed", secs_elapsed)
+                with col2:
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    st.dataframe(df)
 
         else:
             st.warning('⚠ Please upload your images! 😯')
@@ -86,7 +86,7 @@ if selection_choice == "Two Directories":
     with main_col2:
         multi_folder2_uploaded_files = st.file_uploader("Upload Images (folder 2)🖼", type=["png","jpg","bmp","jpeg"], accept_multiple_files=True)
 
-    with st.spinner(f"Working... 💫"):
+    with st.spinner("Working... 💫"):
         if multi_folder1_uploaded_files and multi_folder2_uploaded_files:
             for uploaded_file in multi_folder1_uploaded_files:
                 with open(os.path.join(multi_folder1_upload_path,uploaded_file.name),"wb") as f:
@@ -98,7 +98,7 @@ if selection_choice == "Two Directories":
 
             search = dif("multi_uploads/folder_1/", "multi_uploads/folder_2/")
 
-            dup_imgs = [key for key in search.result.keys()]
+            dup_imgs = list(search.result.keys())
             low_res_imgs = [str(img.split("/")[-1]) for img in search.lower_quality]
             stats_metrics = [search.stats[key] for key in search.stats.keys()]
             time_metrics = [stats_metrics[2][key] for key in stats_metrics[2].keys()]
@@ -107,26 +107,26 @@ if selection_choice == "Two Directories":
             similarity_mse = str(stats_metrics[4])
             total_imgs_searched = str(stats_metrics[5])
             total_imgs_found = str(stats_metrics[6])
-            strt_datetime = str(time_metrics[0])+ " " + str(time_metrics[1])
-            end_datetime = str(time_metrics[2])+ " " + str(time_metrics[3])
+            strt_datetime = f"{str(time_metrics[0])} {str(time_metrics[1])}"
+            end_datetime = f"{str(time_metrics[2])} {str(time_metrics[3])}"
             secs_elapsed = str(time_metrics[-1])
 
             df  = pd.DataFrame(columns = ['names of duplicate images'])
             df['names of duplicate images'] = dup_imgs
             df['names of lowest quality images'] = low_res_imgs
 
-            if len(total_imgs_searched) != 0:
-                    col1, col2, col3 = st.columns(3)
-                    col1.metric("Total Images Searched", total_imgs_searched)
-                    col2.metric("Duplicate Images Found", total_imgs_found)
-                    col3.metric("Lowest Quality Images Found", len(low_res_imgs))
+            if total_imgs_searched != "":
+                col1, col2, col3 = st.columns(3)
+                col1.metric("Total Images Searched", total_imgs_searched)
+                col2.metric("Duplicate Images Found", total_imgs_found)
+                col3.metric("Lowest Quality Images Found", len(low_res_imgs))
 
-                    col1.metric("Similarity Grade", similarity_grade.title())
-                    col2.metric("Similarity MSE", similarity_mse)
-                    col3.metric("Seconds Elapsed", secs_elapsed)
-                    with col2:
-                        st.markdown("<br>", unsafe_allow_html=True)
-                        st.dataframe(df)
+                col1.metric("Similarity Grade", similarity_grade.title())
+                col2.metric("Similarity MSE", similarity_mse)
+                col3.metric("Seconds Elapsed", secs_elapsed)
+                with col2:
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    st.dataframe(df)
         else:
             st.warning('⚠ Please upload your images! 😯')
 
